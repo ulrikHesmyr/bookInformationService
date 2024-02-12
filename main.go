@@ -1,69 +1,39 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"assignment-1/handlers"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-type Location struct {
-	Name     string `json:"name"`
-	Country  string `json:"country,omitempty"` //Allow that the country is not present in the json object
-	Postcode uint16 `json:"postcode"`
-}
-
 func main() {
+	router := mux.NewRouter()
 
-	s := &http.Server{
-		Addr:    ":8080",
-		Handler: http.HandlerFunc(requestHandler),
+	//Bookcount endpoint request handler functions
+	router.Path("/librarystats/v1/bookcount/").
+		Queries("language", "{language}").
+		HandlerFunc(handlers.BookcountHandler)
+
+	router.HandleFunc("/librarystats/v1/bookcount/", handlers.BookcountInfo)
+
+	//Readership endpoint request handler functions
+	router.Path("/librarystats/v1/readership/{language}/").
+		Queries("limit", "{limit}").
+		HandlerFunc(handlers.ReadershipHandler)
+
+	router.HandleFunc("/librarystats/v1/readership/{language}", handlers.ReadershipHandler)
+
+	router.HandleFunc("/librarystats/v1/readership/", handlers.ReadershipInfo)
+
+	//Status endpoint request handler function
+	router.HandleFunc("/librarystats/v1/status/", handlers.StatusHandler)
+
+	//Http server that will use our pre configured router as the request handler
+	server := &http.Server{
+		Handler: router,
+		Addr:    "127.0.0.1:8080",
 	}
-
-	log.Fatal(s.ListenAndServe())
+	log.Fatal(server.ListenAndServe())
 }
-
-func requestHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		defaultGetHandler(w, r)
-	case http.MethodPost:
-		defaultPostHandler(w, r)
-	default:
-		http.Error(w, "Method not accepted", http.StatusMethodNotAllowed)
-	}
-}
-
-func defaultGetHandler(w http.ResponseWriter, r *http.Request) {
-	loc := Location{Name: "Skien", Postcode: 3721, Country: "Norge"}
-
-	encoder := json.NewEncoder(w)
-	encoder.Encode(loc)
-
-	w.Header().Set("Content-Type", "application/json")
-
-}
-
-func defaultPostHandler(w http.ResponseWriter, r *http.Request) {
-
-	//Put into middleware (???)
-	if r.Header.Get("content-type") != "application/json" {
-		http.Error(w, "Make sure payload is of JSON format", http.StatusBadRequest)
-	}
-
-	//Creating a decoder to match the request body
-	decoder := json.NewDecoder(r.Body)
-
-	//Empty data, because we will get the data in the r.Body
-	location := Location{}
-
-	//Decoding JSON data from request and parsing it into our "location" variable
-	err := decoder.Decode(&location)
-	if err != nil {
-		http.Error(w, "Server failed to decode JSON data", http.StatusBadRequest)
-	}
-
-	fmt.Println(location)
-}
-
-//func jsonMiddleware(w http.Response)
