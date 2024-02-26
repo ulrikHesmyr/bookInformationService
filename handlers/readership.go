@@ -38,6 +38,7 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 		language = pathArgs[1]
 	} else {
 		http.Error(w, "Request not valid", http.StatusBadRequest)
+		return
 	}
 
 	//Retrieving data in the JSON format, therefore we specify it in the Headers for the browser to format accordingly
