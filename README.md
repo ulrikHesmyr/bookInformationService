@@ -12,9 +12,6 @@ git repository
 2. Then go to the root folder of the git repository ``` cd <name of repository folder> ```
 3. Run ``` go run main.go ```
 
-### Troubleshooting
-If there is any problems after completing all the the steps in both [Prerequisites](#prerequisites) and [Installation](#installation), there could be an issue related to external go packages. Try to use ``` go get github.com/gorilla/mux ``` before doing step 3 of [Installation](#installation) 
-
 ---
 
 ## Usage

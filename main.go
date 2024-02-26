@@ -5,38 +5,32 @@ import (
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
+	//Variable containing the time of server restart used to provide the "uptime" property of the data response for the "/status/" endpoint
 	start := time.Now()
-	router := mux.NewRouter()
 
-	//Bookcount endpoint request handler functions
-	router.Path("/librarystats/v1/bookcount/").
-		Queries("language", "{language}").
-		HandlerFunc(handlers.BookcountHandler)
+	// //Bookcount endpoint request handler functions
+	// router.Path("/librarystats/v1/bookcount/").
+	// 	Queries("language", "{language}").
+	// 	HandlerFunc(handlers.BookcountHandler)
 
-	router.HandleFunc("/librarystats/v1/bookcount/", handlers.BookcountInfo)
+	// router.HandleFunc("/librarystats/v1/bookcount/", handlers.BookcountInfo)
 
-	//Readership endpoint request handler functions
-	router.Path("/librarystats/v1/readership/{language}/").
-		Queries("limit", "{limit}").
-		HandlerFunc(handlers.ReadershipHandler)
+	http.HandleFunc("/librarystats/v1/bookcount/", handlers.BookcountHandler)
 
-	router.HandleFunc("/librarystats/v1/readership/{language}", handlers.ReadershipHandler)
-
-	router.HandleFunc("/librarystats/v1/readership/", handlers.ReadershipInfo)
+	//Readership endpoint request handler function
+	http.HandleFunc("/librarystats/v1/readership/", handlers.ReadershipHandler)
 
 	//Status endpoint request handler function
-	router.HandleFunc("/librarystats/v1/status/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/librarystats/v1/status/", func(w http.ResponseWriter, r *http.Request) {
 		handlers.StatusHandler(&start, w, r)
 	})
 
 	//Http server that will use our pre-configured router as the request handler
 	server := &http.Server{
-		Handler: router,
+		Handler: nil,
 		Addr:    "127.0.0.1:8080",
 	}
 	log.Fatal(server.ListenAndServe())

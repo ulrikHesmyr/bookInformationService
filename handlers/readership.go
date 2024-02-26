@@ -5,8 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-
-	"github.com/gorilla/mux"
+	"strings"
 )
 
 /*
@@ -23,6 +22,23 @@ Base-endpoint must have reader-usable guidance on how to invoke this service
 */
 func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 
+	path := strings.TrimPrefix(r.URL.Path, "/librarystats/v1/readership")
+
+	pathArgs := strings.Split(path, "/")
+
+	amountArgs := len(pathArgs)
+	var language string
+	var amount int
+
+	if path == "/" {
+		ReadershipInfo(w, r)
+		return
+	} else if amountArgs == 2 || amountArgs == 3 {
+		language = pathArgs[1]
+	} else {
+		http.Error(w, "Request not valid", http.StatusBadRequest)
+	}
+
 	//Retrieving data in the JSON format, therefore we specify it in the Headers for the browser to format accordingly
 	w.Header().Add("Content-Type", "application/json")
 
@@ -33,9 +49,6 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
 		return
 	}
-
-	//Get the language code (only allows 1, and it is mandatory)
-	language := mux.Vars(r)["language"]
 
 	//Check if valid request (limit is a number), else return http.StatusBadRequest
 
@@ -56,11 +69,10 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 
 	response_data := []utils.ReadershipResponse{}
 
-	var amount int
-	if mux.Vars(r)["limit"] == "" {
+	if len(r.URL.Query()["limit"]) == 0 {
 		amount = len(countries)
 	} else {
-		amount, err = strconv.Atoi(mux.Vars(r)["limit"])
+		amount, err = strconv.Atoi(r.URL.Query()["limit"][0])
 		if err != nil {
 			http.Error(w, "limit query argument is not a valid number. Must be an integer.", http.StatusBadRequest)
 			return

@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-
-	"github.com/gorilla/mux"
 )
 
 /*
@@ -23,6 +21,22 @@ Base-endpoint must have reader-usable guidance on how to invoke this service
 */
 func BookcountHandler(w http.ResponseWriter, r *http.Request) {
 
+	//Retrieving all language codes from the query and converting it to a list of strings
+	var languages []string
+	params := strings.TrimPrefix(r.URL.Path, "/librarystats/v1/bookcount")
+
+	if len(r.URL.Query()["language"]) > 0 {
+		languages = strings.Split(r.URL.Query()["language"][0], ",")
+	}
+
+	if len(languages) == 0 && params == "/" {
+		BookcountInfo(w, r)
+		return
+	} else if params != "/" {
+		http.Error(w, "Page not found", http.StatusNotFound)
+		return
+	}
+
 	//Retrieving data in the JSON format, therefore we specify it in the Headers for the browser to format accordingly
 	w.Header().Add("Content-Type", "application/json")
 
@@ -35,15 +49,7 @@ func BookcountHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//Retrieving all language codes from the query and converting it to a list of strings
-	vars := strings.Split(mux.Vars(r)["language"], ",")
-
-	var amount_languages int = len(vars)
-
-	if mux.Vars(r)["language"] == "" {
-		http.Error(w, "Misses arguments for the 'language' query", http.StatusBadRequest)
-		return
-	}
+	var amount_languages int = len(languages)
 
 	var data []utils.BookcountResponse
 
@@ -51,10 +57,10 @@ func BookcountHandler(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < amount_languages; i++ {
 
 		//Initializing an instance of a "BookcountRepsons" which will be data retrieved to the client
-		response_data := utils.BookcountResponse{Language: vars[i]}
+		response_data := utils.BookcountResponse{Language: languages[i]}
 
 		//Initializing an instance of "BookcountData" which will contain data from the Gutendex API
-		retrieved_data, err := utils.CountBooksAndAuthors(vars[i])
+		retrieved_data, err := utils.CountBooksAndAuthors(languages[i])
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadGateway)
