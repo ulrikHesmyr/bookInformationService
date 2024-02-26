@@ -23,16 +23,16 @@ func BookcountHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Retrieving all language codes from the query and converting it to a list of strings
 	var languages []string
-	params := strings.TrimPrefix(r.URL.Path, "/librarystats/v1/bookcount")
+	path := strings.TrimPrefix(r.URL.Path, "/librarystats/v1/bookcount")
 
 	if len(r.URL.Query()["language"]) > 0 {
 		languages = strings.Split(r.URL.Query()["language"][0], ",")
 	}
 
-	if len(languages) == 0 && params == "/" {
+	if path == "/" && len(languages) == 0 {
 		BookcountInfo(w, r)
 		return
-	} else if params != "/" {
+	} else if path != "/" {
 		http.Error(w, "Page not found", http.StatusNotFound)
 		return
 	}

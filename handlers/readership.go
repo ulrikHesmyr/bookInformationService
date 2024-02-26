@@ -27,6 +27,7 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 	pathArgs := strings.Split(path, "/")
 
 	amountArgs := len(pathArgs)
+
 	var language string
 	var amount int
 
