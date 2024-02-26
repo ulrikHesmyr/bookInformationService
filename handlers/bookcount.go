@@ -13,10 +13,7 @@ import (
 Function to retrieve a human-readable user guide for the "bookcount" endpoint of our API
 */
 func BookcountInfo(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html")
-
-	w.Write([]byte("This is how to use /bookcount endpoint"))
+	http.ServeFile(w, r, "./static/bookcount.html")
 }
 
 /*

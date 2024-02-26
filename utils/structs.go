@@ -38,3 +38,11 @@ type CountryInfo struct {
 type PopulationInfo struct {
 	Population uint32 `json:"population"`
 }
+
+type StatusResponse struct {
+	GutendexApi  int     `json:"gutendexapi"`
+	LanguageApi  int     `json:"languageapi"`
+	CountriesApi int     `json:"countriesapi"`
+	Version      string  `json:"version"`
+	Uptime       float64 `json:"uptime"`
+}

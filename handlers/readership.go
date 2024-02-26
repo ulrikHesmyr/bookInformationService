@@ -13,10 +13,7 @@ import (
 Function to retrieve human-readable user guide for the "readership" endpoint
 */
 func ReadershipInfo(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html")
-
-	w.Write([]byte("This is how to use the /readership endpoint"))
+	http.ServeFile(w, r, "./static/readership.html")
 }
 
 /*
@@ -34,6 +31,7 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 		break
 	default:
 		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
+		return
 	}
 
 	//Get the language code (only allows 1, and it is mandatory)

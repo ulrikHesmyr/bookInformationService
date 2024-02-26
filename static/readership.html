@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>READERSHIP</title>
+</head>
+<body>
+    <h1>Userguide to /librarystats/v1/readership endpoint</h1>
+    <h2>Paths</h2>
+    <h3>Path: "/{language}", Query: ""</h3>
+    <p>Presence: <strong>mandatory</strong></p>
+    <p>Reponse format: <strong>JSON</strong></p>
+    <p>Response data structure: <pre>
+        { 
+            "country": string 
+            "isocode": string 
+            "books": uint32 
+            "authors": uint32 
+            "readership": uint32 
+        }
+        </pre></p>
+    <ul>
+        <li>country: The official name of the country</li>
+        <li>isocode: The 2-letter ISO country-code, corresponding to the one provided in the request</li>
+        <li>books: The amount of books available for the queried language </li>
+        <li>authors: The amount of unique authors</li>
+        <li>readerhip: The population of the country</li>
+    </ul>
+
+    <p>This path takes the values of <a href="https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes">
+        2-letter ISO639 Set 1 language codes</a>, i.e: "no" for Norway, 
+        "fi" for Finnland or "hu" for Hungary. The path takes a single value argument and will return a list of all 
+        countries where the language of the given country-code is spoken in the given format and data stucture. </p>
+
+    <h3>Path: "/{language}/", Query: "?limit"</h3>
+    <p>Presence: <strong>optional</strong></p>
+    <p>Reponse format: <strong>JSON</strong></p>
+    <p>Response data structure: <pre>
+        { 
+            "country": string 
+            "isocode": string 
+            "books": uint32 
+            "authors": uint32 
+            "readership": uint32 
+        }
+        </pre></p>
+    <p>
+        The query takes the value of a constant integer which will be the maximum number of objects in the list returned from the request.
+    </p>
+    
+
+    <h2>Examples</h2>
+    <p>Here are some sample requests with the corresponding reponses.</p>
+        
+    <p>Request: <code>/readership/no</code></p>
+    <pre>[
+        {
+            "country": "Iceland",
+            "isocode": "IS",
+            "books": 21,
+            "authors": 16,
+            "readership": 366425
+        },
+        {
+            "country": "Norway",
+            "isocode": "NO",
+            "books": 21,
+            "authors": 16,
+            "readership": 5379475
+        },
+        {
+            "country": "Svalbard and Jan Mayen Islands",
+            "isocode": "SJ",
+            "books": 21,
+            "authors": 16,
+            "readership": 2562
+        }
+    ]</pre>
+
+    <p>Request: <code>/readership/fi/?limit=2</code></p>
+    <pre>
+        [
+    {
+        "country": "Finland",
+        "isocode": "FI",
+        "books": 2824,
+        "authors": 884,
+        "readership": 5530719
+    },
+    {
+        "country": "Norway",
+        "isocode": "NO",
+        "books": 2824,
+        "authors": 884,
+        "readership": 5379475
+    }
+]</pre>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOKCOUNT</title>
+</head>
+<body>
+    <h1>Userguide to /librarystats/v1/bookcount endpoint</h1>
+    <h2>Paths</h2>
+    <h3>Path: "/", Query: "?language"</h3>
+    <p>Presence: <strong>mandatory</strong></p>
+    <p>Reponse format: <strong>JSON</strong></p>
+    <p>Response data structure: <pre>
+        { 
+            "language": string 
+            "books": uint32 
+            "authors": uint32 
+            "fraction": float32 
+        }
+        </pre></p>
+
+    <ul>
+        <li>language: The language code which is the same as the value of the query</li>
+        <li>books: The amount of books available for the queried language</li>
+        <li>authors: The amount of unique authors</li>
+        <li>fraction: The number of books divided by the number of all books served via gutendex</li>
+    </ul>
+
+    <p>This query takes <a href="https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes">
+        2-letter ISO language codes</a> as values for the argument of this query, i.e: "no" for Norway, 
+        "fi" for Finnland or "hu" for Hungary.
+    The argument of this query could either be a single value i.e: <code>/bookcount/?language=no</code> 
+    to retrieve a single object OR the argument to this query could be a comma-separated list of values, 
+    i.e: <code>/bookcount/?language=no,hu</code> which will retrieve two objects, one for each query value. </p>
+
+
+    
+
+    <h2>Examples</h2>
+    <p>Here are some sample requests with the corresponding reponses.</p>
+    <p>Request: <code>/bookcount/?language=hu</code></p>
+    <pre>
+        [{ 
+            "language": "hu",
+            "books": 532, 
+            "authors": 158, 
+            "fraction":  0.007298369
+        }]</pre>
+        
+    <p>Request: <code>/bookcount/?language=hu,fi</code></p>
+    <pre>
+[
+    {
+        "language": "hu",
+        "books": 532,
+        "authors": 158,
+        "fraction": 0.007298369
+    },
+    {
+        "language": "fi",
+        "books": 2824,
+        "authors": 884,
+        "fraction": 0.03874172
+    }
+]</pre>
+</body>
+</html>
