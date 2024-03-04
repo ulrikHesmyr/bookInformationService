@@ -100,5 +100,6 @@ func ReadershipHandler(w http.ResponseWriter, r *http.Request) {
 
 	if f_err != nil {
 		http.Error(w, "Failed to parse into JSON data format", http.StatusInternalServerError)
+
 	}
 }
