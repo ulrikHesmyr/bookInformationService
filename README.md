@@ -35,7 +35,7 @@ of JSON format (conent type of application and sub-level media type of json). Th
 - fraction (float32): The number of books divided by the number of all books served via gutendex
 
 Example:
-- Request: ~~~ /bookcount/?language=hu ~~~
+- Request: ``` /bookcount/?language=hu ```
 ```
 [{ 
     "language": "hu",
@@ -45,7 +45,7 @@ Example:
 }]
 ```
 
-- Request: ~~~ /bookcount/?language=hu,fi ~~~
+- Request: ``` /bookcount/?language=hu,fi ```
 ```
 [
     {
@@ -80,7 +80,7 @@ which will return a list with an object for each language spoken in the country 
 - readerhip (uint32): The population of the country
 
 Example:
-- Request: ~~~ /readership/no ~~~
+- Request: ``` /readership/no ```
 ```
 [
     {
@@ -113,7 +113,7 @@ The "limit" query of this path is optional, but requires an integer value to spe
 
 
 Example:
-- Request: ~~~ /readership/fi/?limit=2 ~~~
+- Request: ``` /readership/fi/?limit=2 ```
 ```
 [
     {
@@ -144,7 +144,7 @@ provide full functionality. The data has JSON format and contains the following 
 - uptime (float64): Time in seconds from the last service restart
 
 Example: 
-- Request: ~~~ /status/ ~~~
+- Request: ``` /status/ ```
 
 ```
 {
