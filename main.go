@@ -31,7 +31,7 @@ func main() {
 	//Http server that will use our pre-configured router as the request handler
 	server := &http.Server{
 		Handler: nil,
-		Addr:    "0.0.0.0:8080",
+		Addr:    "0.0.0.0:1337",
 	}
 	log.Fatal(server.ListenAndServe())
 }
