@@ -18,15 +18,16 @@ git repository
 This API provides three endpoints with related paths and queries. Beneath you will find documentation for each endpoint containing
 info about accessible data, data formats, data structure, arguments and parameter values, presence and example requests.
 
-### /bookcount
+### Endpoint: /bookcount
 The bookcount endpoint is open for GET requests and will retrieve the bookcount for any given language(s). The language is identified via 2-letter ISO country code.
 The data 
 
-#### /
+#### /bookcount paths:
+##### /
 This path provides a full user-readable documentation for the /bookcount endpoint provided in format of a HTML document. The document includes information of paths, queries, data format, data structure, accepted values as argument to paths and queries and 
 sample requests with corresponding response-data.
 
-#### /?language
+##### /?language
 This query of the default-path "/" takes either a single-value or a comma-separated list [2-letter ISO country-code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes). At least a single-value argument to the query is mandatory to retrieve data. For each value of the argument, the list returned by the request will containt a corresponding object. The response data is 
 of JSON format (conent type of application and sub-level media type of json). The data structure has the following properties:
 - language (string): The language code which is the same as the value of the query
@@ -64,13 +65,14 @@ Example:
 ```
 
 
-### /readership
+### Endpoint: /readership
 
-#### /
+#### /readership paths:
+##### /
 This path provides a full user-readable documentation for the /readership endpoint provided in format of a HTML document. The document includes information of paths, queries, data format, data structure, accepted values as argument to paths and queries and 
 sample requests with corresponding response-data.
 
-#### /{language}
+##### /{language}
 This path takes a single-value [2-letter ISO country-code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) Set 1, as argument 
 which will return a list with an object for each language spoken in the country represented by the 2-letter ISO country-code. The response data is of JSON format (conent type of application and sub-level media type of json). The data structure has the following properties:
 - country (string): The official name of the country
@@ -108,7 +110,7 @@ Example:
 ```
 
 
-#### /{language}/?limit={limit}
+##### /{language}/?limit={limit}
 The "limit" query of this path is optional, but requires an integer value to specify the maximum amount of objects returned in the list.
 
 
@@ -133,8 +135,10 @@ Example:
 ]
 ```
 
-### /status
-#### /
+### Endpoint: /status
+
+#### /status paths:
+##### /
 This path provides a diagnostics interface that indicates the availability of individual third party services that the API depends on to 
 provide full functionality. The data has JSON format and contains the following properties:
 - gutendexapi (int): The statuscode returned when sending requests to the Gutendex API
