@@ -18,11 +18,11 @@ git repository
 This API provides three endpoints with related paths and queries. Beneath you will find documentation for each endpoint containing
 info about accessible data, data formats, data structure, arguments and parameter values, presence and example requests.
 
-### Endpoint: /bookcount
+### Endpoint: /librarystats/v1/bookcount
 The bookcount endpoint is open for GET requests and will retrieve the bookcount for any given language(s). The language is identified via 2-letter ISO country code.
 The data 
 
-#### /bookcount paths:
+#### Paths
 ##### /
 This path provides a full user-readable documentation for the /bookcount endpoint provided in format of a HTML document. The document includes information of paths, queries, data format, data structure, accepted values as argument to paths and queries and 
 sample requests with corresponding response-data.
@@ -65,9 +65,9 @@ Example:
 ```
 
 
-### Endpoint: /readership
+### Endpoint: /librarystats/v1/readership
 
-#### /readership paths:
+#### Paths:
 ##### /
 This path provides a full user-readable documentation for the /readership endpoint provided in format of a HTML document. The document includes information of paths, queries, data format, data structure, accepted values as argument to paths and queries and 
 sample requests with corresponding response-data.
@@ -135,9 +135,9 @@ Example:
 ]
 ```
 
-### Endpoint: /status
+### Endpoint: /librarystats/v1/status
 
-#### /status paths:
+#### Paths:
 ##### /
 This path provides a diagnostics interface that indicates the availability of individual third party services that the API depends on to 
 provide full functionality. The data has JSON format and contains the following properties:
